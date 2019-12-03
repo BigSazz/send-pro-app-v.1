@@ -1,10 +1,66 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getUser } from '../../actions/user';
+import Spinner from '../layout/Spinner';
 
-const Dashboard = props => {
-  return <div>Dashboard</div>;
+class Dashboard extends Component {
+  componentDidMount() {
+    this.props.getUser();
+  }
+
+  render() {
+    // const { isAuthenticated } = this.props.auth;
+    const { user, loading } = this.props.user;
+
+    return loading && user === null ? (
+      <Spinner />
+    ) : (
+      <Fragment>
+        <h1 className='x-large text-primary'>Dashboard</h1>
+        <p className='lead'>
+          <i className='fas fa-user'></i>
+          Welcome {user.username}
+        </p>
+        <Fragment>
+          <div className='card m-5'>
+            <div className='card-body'>
+              <p className='large'>
+                Click here to view all your saved addresses
+              </p>
+              <Link to='addresses' className='btn btn-primary my-1'>
+                My Addresses
+              </Link>
+            </div>
+          </div>
+        </Fragment>
+        <Fragment>
+          <div className='card m-5'>
+            <div className='card-body'>
+              <p className='large'>
+                Click here to view all your saved shipments
+              </p>
+              <Link to='shipments' className='btn btn-primary my-1'>
+                My Shipments
+              </Link>
+            </div>
+          </div>
+        </Fragment>
+      </Fragment>
+    );
+  }
+}
+
+Dashboard.propTypes = {
+  getUser: PropTypes.func.isRequired,
+  // auth: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };
 
-Dashboard.propTypes = {};
+const mapStateToProps = state => ({
+  // auth: state.auth,
+  user: state.user
+});
 
-export default Dashboard;
+export default connect(mapStateToProps, { getUser })(Dashboard);

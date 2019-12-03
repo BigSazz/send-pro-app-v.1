@@ -8,6 +8,10 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Alert from './components/layout/Alert';
 import Dashboard from './components/dashboard/Dashboard';
+import Addresses from './components/address/Addresses';
+import AddAddressForm from './components/address/address-forms/AddAddressForm';
+import EditAddressForm from './components/address/address-forms/EditAddressForm';
+import PrivateRoute from './components/routing/PrivateRoute';
 
 // Redux
 import { Provider } from 'react-redux';
@@ -38,7 +42,18 @@ const App = () => {
             <Switch>
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
-              <Route exact path='/dashboard' component={Dashboard} />
+              <PrivateRoute exact path='/dashboard' component={Dashboard} />
+              <PrivateRoute
+                exact
+                path='/add-address'
+                component={AddAddressForm}
+              />
+              <PrivateRoute
+                exact
+                path='/edit-address/:id'
+                component={EditAddressForm}
+              />
+              <PrivateRoute exact path='/addresses' component={Addresses} />
             </Switch>
           </section>
         </Fragment>
