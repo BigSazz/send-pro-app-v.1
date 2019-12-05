@@ -11,6 +11,7 @@ import Dashboard from './components/dashboard/Dashboard';
 import Addresses from './components/address/Addresses';
 import AddAddressForm from './components/address/address-forms/AddAddressForm';
 import EditAddressForm from './components/address/address-forms/EditAddressForm';
+import ViewAddressForm from './components/address/address-forms/ViewAddressForm';
 import PrivateRoute from './components/routing/PrivateRoute';
 
 // Redux
@@ -43,6 +44,7 @@ const App = () => {
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
+              <PrivateRoute exact path='/addresses' component={Addresses} />
               <PrivateRoute
                 exact
                 path='/add-address'
@@ -50,10 +52,14 @@ const App = () => {
               />
               <PrivateRoute
                 exact
+                path='/address/:id'
+                component={ViewAddressForm}
+              />
+              <PrivateRoute
+                exact
                 path='/edit-address/:id'
                 component={EditAddressForm}
               />
-              <PrivateRoute exact path='/addresses' component={Addresses} />
             </Switch>
           </section>
         </Fragment>

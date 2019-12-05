@@ -4,7 +4,10 @@ import {
   ADDRESSES_ERROR,
   NEW_ADDRESS,
   GET_ADDRESS,
-  UPDATE_ADDRESS
+  UPDATE_ADDRESS,
+  DELETE_ADDRESS,
+  FILTER_ADDRESS,
+  CLEAR_FILTER
 } from '../actions/types';
 const initialState = {
   address: null,
@@ -35,6 +38,30 @@ export default function(state = initialState, action) {
         ...state,
         address: payload,
         loading: false
+      };
+    case DELETE_ADDRESS:
+      return {
+        ...state,
+        address: null,
+        loading: true
+      };
+    case FILTER_ADDRESS:
+      return {
+        ...state,
+        filtered: state.addresses.filter(address => {
+          const regex = new RegExp(`${payload}`, 'gi');
+          return (
+            address.street.match(regex) ||
+            address.city.match(regex) ||
+            address.country.match(regex) ||
+            address.friendly_name.match(regex)
+          );
+        })
+      };
+    case CLEAR_FILTER:
+      return {
+        ...state,
+        filtered: null
       };
     case ADDRESS_ERROR:
       return {

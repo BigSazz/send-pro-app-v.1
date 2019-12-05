@@ -7,10 +7,11 @@ import { login } from '../../actions/auth';
 const Login = ({ login, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     identifier: '',
-    password: ''
+    password: '',
+    submitting: false
   });
 
-  const { identifier, password } = formData;
+  const { identifier, password, submitting } = formData;
 
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,6 +19,9 @@ const Login = ({ login, isAuthenticated }) => {
   const onSubmit = e => {
     e.preventDefault();
     login(identifier, password);
+    setFormData({
+      submitting: true
+    });
   };
 
   // Redirect if authenticated
@@ -51,7 +55,12 @@ const Login = ({ login, isAuthenticated }) => {
             minLength='6'
           />
         </div>
-        <input type='submit' className='btn btn-primary' value='Login' />
+        <input
+          disabled={submitting}
+          type='submit'
+          className='btn btn-primary'
+          value='Login'
+        />
       </form>
       <p className='my-1'>
         Don't have an account? <Link to='register'>Create Account</Link>

@@ -11,7 +11,6 @@ class Dashboard extends Component {
   }
 
   render() {
-    // const { isAuthenticated } = this.props.auth;
     const { user, loading } = this.props.user;
 
     return loading && user === null ? (
@@ -20,8 +19,8 @@ class Dashboard extends Component {
       <Fragment>
         <h1 className='x-large text-primary'>Dashboard</h1>
         <p className='lead'>
-          <i className='fas fa-user'></i>
-          Welcome {user.username}
+          <i className='fas fa-user'></i> Welcome{' '}
+          <span className='text-primary'>{user.username}</span>
         </p>
         <Fragment>
           <div className='card m-5'>
@@ -54,12 +53,10 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
   getUser: PropTypes.func.isRequired,
-  // auth: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  // auth: state.auth,
   user: state.user
 });
 

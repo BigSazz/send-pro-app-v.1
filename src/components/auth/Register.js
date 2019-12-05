@@ -11,10 +11,11 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     email: '',
     password: '',
     password2: '',
-    phone: ''
+    phone: '',
+    submitting: false
   });
 
-  const { username, email, phone, password, password2 } = formData;
+  const { username, email, phone, password, password2, submitting } = formData;
 
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,6 +26,9 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
       setAlert('Passwords did not match', 'danger');
     } else {
       register({ username, email, password, phone });
+      setFormData({
+        submitting: true
+      });
     }
   };
 
@@ -88,7 +92,12 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             minLength='6'
           />
         </div>
-        <input type='submit' className='btn btn-primary' value='Register' />
+        <input
+          disabled={submitting}
+          type='submit'
+          className='btn btn-primary'
+          value='Register'
+        />
       </form>
       <p className='my-1'>
         Already have an account? <Link to='login'>Sign In</Link>

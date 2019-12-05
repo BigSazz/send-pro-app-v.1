@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getAddress, updateAddress } from '../../../actions/address';
 
@@ -32,6 +32,8 @@ const EditAddressForm = ({
       friendly_name:
         loading || !address.friendly_name ? '' : address.friendly_name
     });
+
+    //eslint-disable-next-line
   }, [loading]);
 
   const { street, city, state, country, email, friendly_name } = formData;
@@ -42,7 +44,7 @@ const EditAddressForm = ({
   const onSubmit = e => {
     e.preventDefault();
     updateAddress(match.params.id, formData, history);
-    console.log(formData);
+    // console.log(formData);
   };
 
   return (

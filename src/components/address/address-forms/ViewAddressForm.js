@@ -1,118 +1,128 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { loadUser } from '../../../actions/auth';
-import { addNewAddress } from '../../../actions/address';
+import { getAddress } from '../../../actions/address';
 
-const AddAddressForm = ({ loadUser, addNewAddress, loggedUser, history }) => {
+const ViewAddressForm = ({
+  getAddress,
+  address: { address, loading },
+  match,
+  history
+}) => {
   const [formData, setFormData] = useState({
     street: '',
     city: '',
     state: '',
     country: '',
     email: '',
-    friendly_name: '',
-    user: ''
+    friendly_name: ''
   });
 
-  const { street, city, state, country, email, friendly_name } = formData;
-
   useEffect(() => {
-    loadUser();
+    getAddress(match.params.id);
 
     setFormData({
-      user: loggedUser.id
+      street: loading || !address.street ? '' : address.street,
+      city: loading || !address.city ? '' : address.city,
+      state: loading || !address.state ? '' : address.state,
+      country: loading || !address.country ? '' : address.country,
+      email: loading || !address.email ? '' : address.email,
+      friendly_name:
+        loading || !address.friendly_name ? '' : address.friendly_name
     });
+
     //eslint-disable-next-line
-  }, []);
+  }, [loading]);
 
-  const onChange = e =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const onSubmit = e => {
-    e.preventDefault();
-    addNewAddress(formData, history);
-    // console.log(formData);
-  };
+  const { street, city, state, country, email, friendly_name } = formData;
 
   return (
     <Fragment>
       <h1 className='large text-primary'>Address</h1>
       <p className='lead'>
-        <i className='far fa-address-card'></i> Add Address
+        <i className='far fa-address-card'></i> View Address
       </p>
-      <form className='form' onSubmit={e => onSubmit(e)}>
+      <form className='form'>
         <div className='form-group'>
+          <label>Street</label>
           <input
             type='text'
             placeholder='Street'
             name='street'
             value={street}
-            onChange={e => onChange(e)}
+            readOnly
           />
         </div>
         <div className='form-group'>
+          <label>City</label>
           <input
             type='text'
             placeholder='City'
             name='city'
-            onChange={e => onChange(e)}
             value={city}
+            readOnly
           />
         </div>
         <div className='form-group'>
+          <label>State</label>
           <input
             type='text'
             placeholder='State'
             name='state'
-            onChange={e => onChange(e)}
             value={state}
+            readOnly
           />
         </div>
         <div className='form-group'>
+          <label>Country</label>
           <input
             type='text'
             placeholder='Country'
             name='country'
             value={country}
-            onChange={e => onChange(e)}
+            readOnly
           />
         </div>
         <div className='form-group'>
+          <label>Email Address</label>
           <input
             type='email'
             placeholder='Enter Email'
             name='email'
             value={email}
-            onChange={e => onChange(e)}
+            readOnly
           />
         </div>
         <div className='form-group'>
+          <label>Friendly Name</label>
           <input
             type='text'
             placeholder='Friendly Name'
             name='friendly_name'
             value={friendly_name}
-            onChange={e => onChange(e)}
+            readOnly
           />
         </div>
-        <input type='submit' className='btn btn-primary' value='Save' />
+        <Link to={`/edit-address/${match.params.id}`}>
+          <button type='button' className='btn btn-outline-success'>
+            Edit
+          </button>
+        </Link>
       </form>
     </Fragment>
   );
 };
 
-AddAddressForm.propTypes = {
-  // setAlert: PropTypes.func.isRequired,
-  loggedUser: PropTypes.object,
-  addNewAddress: PropTypes.func.isRequired
+ViewAddressForm.propTypes = {
+  address: PropTypes.object,
+  getAddress: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  loggedUser: state.auth.user
+  address: state.address
 });
 
-export default connect(mapStateToProps, { addNewAddress, loadUser })(
-  withRouter(AddAddressForm)
+export default connect(mapStateToProps, { getAddress })(
+  withRouter(ViewAddressForm)
 );

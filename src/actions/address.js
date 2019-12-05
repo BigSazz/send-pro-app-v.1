@@ -5,9 +5,12 @@ import {
   GET_ADDRESS,
   NEW_ADDRESS,
   UPDATE_ADDRESS,
+  DELETE_ADDRESS,
   ADDRESS_ERROR,
   GET_ALL_ADDRESSES,
-  ADDRESSES_ERROR
+  ADDRESSES_ERROR,
+  FILTER_ADDRESS,
+  CLEAR_FILTER
 } from './types';
 
 // Get an address
@@ -80,8 +83,34 @@ export const updateAddress = (id, formData, history) => async dispatch => {
     dispatch({ type: UPDATE_ADDRESS, payload: res.data });
     dispatch(setAlert('Address Updated', 'success'));
 
-    history.push(`/addresses`);
+    history.push('/addresses');
   } catch (err) {
     dispatch({ type: ADDRESS_ERROR });
   }
+};
+
+// Delete an Address
+export const deleteAddress = id => async dispatch => {
+  try {
+    await axios.delete(`/addresses/${id}`);
+    dispatch({
+      type: DELETE_ADDRESS
+    });
+    dispatch(setAlert('Address Deleted', 'success'));
+    // history.push('/addresses');
+  } catch (err) {
+    dispatch({
+      type: ADDRESS_ERROR
+    });
+  }
+};
+
+// Filter Addresses
+export const filterAddress = text => dispatch => {
+  dispatch({ type: FILTER_ADDRESS, payload: text });
+};
+
+// Clear Filter
+export const clearFilter = () => dispatch => {
+  dispatch({ type: CLEAR_FILTER });
 };

@@ -1,5 +1,5 @@
 import axios from 'axios';
-// import { setAlert } from './alert';
+import { setAlert } from './alert';
 import {
   REGISTER_FAIL,
   REGISTER_SUCCESS,
@@ -54,15 +54,13 @@ export const register = ({
       payload: res.data
     });
   } catch (err) {
-    console.log(err.response.data.message);
-    // const errors = err.response.data.message;
-
-    // if (errors) {
-    //   errors.forEach(error =>
-    //     dispatch(setAlert(error.messages.message, 'danger'))
-    //   );
-    // }
-
+    if (err.response.data.statusCode === 400) {
+      dispatch(
+        setAlert('Refresh Page & Please fill in correct details', 'danger')
+      );
+    } else if (err.response.data.statusCode === 500) {
+      dispatch(setAlert('Refresh page and try again', 'danger'));
+    }
     dispatch({
       type: REGISTER_FAIL
     });
@@ -88,15 +86,13 @@ export const login = (identifier, password) => async dispatch => {
     });
     dispatch(loadUser());
   } catch (err) {
-    console.log(err.response.data.message);
-    // const errors = err.response
-
-    // if (errors) {
-    //   errors.forEach(error =>
-    //     dispatch(setAlert(error.messages.message, 'danger'))
-    //   );
-    // }
-
+    if (err.response.data.statusCode === 400) {
+      dispatch(
+        setAlert('Invalid Credentials, Refresh Page & Try again', 'danger')
+      );
+    } else if (err.response.data.statusCode === 500) {
+      dispatch(setAlert('Please refresh page', 'danger'));
+    }
     dispatch({
       type: LOGIN_FAIL
     });
