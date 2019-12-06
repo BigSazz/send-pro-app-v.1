@@ -26,6 +26,7 @@ const AddressItem = ({ address, deleteAddress }) => {
                   value='Delete'
                   onClick={() => {
                     deleteAddress(address.id);
+                    // window.location.reload();
                   }}
                 />
               </div>

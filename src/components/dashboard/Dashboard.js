@@ -2,16 +2,15 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getUser } from '../../actions/user';
+import { loadUser } from '../../actions/auth';
 import Spinner from '../layout/Spinner';
 
 class Dashboard extends Component {
   componentDidMount() {
-    this.props.getUser();
+    this.props.loadUser();
   }
-
   render() {
-    const { user, loading } = this.props.user;
+    const { user, loading } = this.props.auth;
 
     return loading && user === null ? (
       <Spinner />
@@ -52,12 +51,11 @@ class Dashboard extends Component {
 }
 
 Dashboard.propTypes = {
-  getUser: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  user: state.user
+  auth: state.auth
 });
 
-export default connect(mapStateToProps, { getUser })(Dashboard);
+export default connect(mapStateToProps, { loadUser })(Dashboard);

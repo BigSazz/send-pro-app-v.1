@@ -4,12 +4,11 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getAllAddresses } from '../../actions/address';
 import AddressItem from './AddressItem';
-import AddressFilter from './AddressFilter';
 import Spinner from '../layout/Spinner';
 
 class Address extends Component {
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    this.props.getAllAddresses(nextProps.user.id);
+  componentDidMount() {
+    this.props.getAllAddresses(this.props.auth.user.id);
   }
   render() {
     const { addresses, loading } = this.props.address;
@@ -35,7 +34,6 @@ class Address extends Component {
             <button className='btn btn-primary'>Add Address</button>
           </Link>
         </div>
-        <AddressFilter />
         <div className='py-4 address-grid'>{addressItem}</div>
       </div>
     );
@@ -44,12 +42,12 @@ class Address extends Component {
 
 Address.propTypes = {
   address: PropTypes.object,
-  user: PropTypes.object,
+  auth: PropTypes.object,
   getAllAddresses: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  user: state.auth.user,
+  auth: state.auth,
   address: state.address
 });
 

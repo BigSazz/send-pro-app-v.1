@@ -7,7 +7,8 @@ import {
   UPDATE_ADDRESS,
   DELETE_ADDRESS,
   FILTER_ADDRESS,
-  CLEAR_FILTER
+  CLEAR_FILTER,
+  CLEAR_ADDRESS
 } from '../actions/types';
 const initialState = {
   address: null,
@@ -73,6 +74,13 @@ export default function(state = initialState, action) {
       return {
         ...state,
         addresses: null,
+        loading: true
+      };
+    case CLEAR_ADDRESS:
+      return {
+        ...state,
+        address: null,
+        addresses: [],
         loading: true
       };
     default:

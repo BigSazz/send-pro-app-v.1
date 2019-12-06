@@ -96,8 +96,7 @@ export const deleteAddress = id => async dispatch => {
     dispatch({
       type: DELETE_ADDRESS
     });
-    dispatch(setAlert('Address Deleted', 'success'));
-    // history.push('/addresses');
+    dispatch(setAlert('Address Deleted', 'success'), window.location.reload());
   } catch (err) {
     dispatch({
       type: ADDRESS_ERROR

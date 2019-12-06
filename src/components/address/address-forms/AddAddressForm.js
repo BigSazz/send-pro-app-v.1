@@ -13,7 +13,7 @@ const AddAddressForm = ({ loadUser, addNewAddress, loggedUser, history }) => {
     country: '',
     email: '',
     friendly_name: '',
-    user: ''
+    user: null
   });
 
   const { street, city, state, country, email, friendly_name } = formData;
@@ -33,7 +33,6 @@ const AddAddressForm = ({ loadUser, addNewAddress, loggedUser, history }) => {
   const onSubmit = e => {
     e.preventDefault();
     addNewAddress(formData, history);
-    // console.log(formData);
   };
 
   return (

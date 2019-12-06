@@ -1,10 +1,15 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { loadUser } from '../../actions/auth';
 import { logout } from '../../actions/auth';
 
-const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
+const Navbar = ({ auth: { isAuthenticated, loading }, logout, loadUser }) => {
+  useEffect(() => {
+    loadUser();
+    //eslint-disable-next-line
+  }, [loadUser]);
   const authLinks = (
     <ul>
       <li>
@@ -55,4 +60,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { logout })(Navbar);
+export default connect(mapStateToProps, { logout, loadUser })(Navbar);
